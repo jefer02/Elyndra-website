@@ -1,0 +1,30 @@
+Copyright (c) 2026 Jeferson Manuel Morillo Vallejo. All rights reserved.
+
+Elyndra website (the showcase and download site for Elyndra,
+https://github.com/jefer02/Elyndra)
+
+This repository holds the source of the Elyndra website. It is published so
+that it can be read. Publishing it does not grant any license to it beyond
+viewing it on GitHub. Without the prior written permission of the copyright
+holder, you may not copy, modify, redistribute or publish this website, its
+text, design or images, in whole or in part, nor create derivative works
+based on them.
+
+Third-party components keep their own licenses:
+- Poppins and Cinzel fonts (public/fonts): SIL Open Font License 1.1, see
+  public/licenses/POPPINS-OFL.txt and public/licenses/CINZEL-OFL.txt.
+- three.js: MIT License, Copyright (c) 2010-2026 three.js authors.
+- uqr (QR code generator by Anthony Fu, based on Project Nayuki's QR Code
+  generator): MIT License, Copyright (c) Project Nayuki, Copyright (c) 2023
+  Anthony Fu.
+- Masha's web model (public/models/masha-web.glb) is generated with MPFB2
+  from the MakeHuman system assets, which are CC0 1.0.
+
+Screenshots show game names, logos and cover art that belong to their owners.
+
+The Elyndra app has its own license:
+https://github.com/jefer02/Elyndra/blob/main/LICENSE
+
+To ask for permission, contact the author at https://github.com/jefer02.
+
+THE WEBSITE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND.
