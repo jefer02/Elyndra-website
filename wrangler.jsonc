@@ -1,0 +1,13 @@
+// Cloudflare Workers static assets: no Worker script, only the files in dist/.
+// The "name" must match the Worker name in the Cloudflare dashboard.
+{
+  "name": "elyndra-website",
+  "compatibility_date": "2026-10-08",
+  // No usage telemetry from Wrangler.
+  "send_metrics": false,
+  "assets": {
+    "directory": "./dist",
+    "not_found_handling": "404-page",
+    "html_handling": "auto-trailing-slash"
+  }
+}
