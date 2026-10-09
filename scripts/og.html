@@ -1,0 +1,64 @@
+<!doctype html>
+<!-- Source of public/og.jpg (1200×630). Rendered by scripts/render-og.mjs. -->
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  @font-face { font-family: Poppins; src: url('../public/fonts/poppins_semibold.woff2'); font-weight: 600; }
+  @font-face { font-family: Poppins; src: url('../public/fonts/poppins_extrabold.woff2'); font-weight: 800; }
+  @font-face { font-family: Poppins; src: url('../public/fonts/poppins_regular.woff2'); font-weight: 400; }
+  @font-face { font-family: Cinzel; src: url('../public/fonts/cinzel_bold.woff2'); font-weight: 700; }
+  * { box-sizing: border-box; margin: 0; }
+  html, body { width: 1200px; height: 630px; overflow: hidden; }
+  body {
+    position: relative;
+    font-family: Poppins, sans-serif;
+    color: #eceef6;
+    background:
+      radial-gradient(60% 70% at 78% 40%, rgb(124 92 255 / 0.45), transparent 65%),
+      radial-gradient(45% 55% at 10% 95%, rgb(43 217 255 / 0.22), transparent 70%),
+      radial-gradient(40% 40% at 30% 10%, rgb(124 92 255 / 0.18), transparent 70%),
+      linear-gradient(180deg, #0a0b12, #0d0f16);
+  }
+  .stars { position: absolute; inset: 0; background-image:
+    radial-gradient(1.2px 1.2px at 12% 22%, #fff8, transparent), radial-gradient(1px 1px at 33% 64%, #fff6, transparent),
+    radial-gradient(1.4px 1.4px at 48% 18%, #fff9, transparent), radial-gradient(1px 1px at 62% 82%, #fff5, transparent),
+    radial-gradient(1.2px 1.2px at 88% 12%, #fff8, transparent), radial-gradient(1px 1px at 92% 70%, #fff6, transparent),
+    radial-gradient(1px 1px at 22% 88%, #fff5, transparent), radial-gradient(1.3px 1.3px at 74% 30%, #fff7, transparent); }
+  .copy { position: absolute; left: 72px; top: 70px; width: 560px; }
+  .brand { display: flex; align-items: center; gap: 16px; margin-bottom: 26px; }
+  .brand img { width: 64px; height: 64px; border-radius: 16px; box-shadow: 0 10px 30px -8px #7c5cff; }
+  .brand span { font-size: 15px; font-weight: 600; letter-spacing: 0.26em; text-transform: uppercase; color: #b4a3ff; }
+  .word {
+    font-family: Cinzel, serif; font-size: 84px; line-height: 1; letter-spacing: 0.14em;
+    background: linear-gradient(180deg, #fff 0%, #fff1c9 34%, #a6ecff 62%, #7c5cff 100%);
+    -webkit-background-clip: text; color: transparent; filter: drop-shadow(0 0 26px rgb(124 92 255 / 0.55));
+    margin-bottom: 26px;
+  }
+  .display { font-size: 46px; font-weight: 800; line-height: 1.08; letter-spacing: -0.02em; margin-bottom: 18px; }
+  .grad { background: linear-gradient(100deg, #fff1c9, #2bd9ff 40%, #7c5cff 95%); -webkit-background-clip: text; color: transparent; }
+  .sub { font-size: 21px; color: #a3a9be; }
+  .device {
+    position: absolute; right: -70px; top: 108px; width: 640px; padding: 12px; border-radius: 28px;
+    background: linear-gradient(160deg, #2a2e3f, #10121b 45%, #1b1e2b);
+    box-shadow: 0 0 0 1px rgb(255 255 255 / 0.1) inset, 0 40px 80px -20px #000, 0 0 120px -30px #7c5cff;
+    transform: perspective(1400px) rotateY(-16deg) rotateX(5deg) rotateZ(1deg);
+  }
+  .device img { display: block; width: 100%; border-radius: 17px; }
+  .pill { position: absolute; left: 72px; bottom: 56px; display: flex; gap: 12px; }
+  .pill span { padding: 9px 18px; border-radius: 999px; font-size: 16px; font-weight: 600; background: rgb(26 29 43 / 0.8); border: 1px solid rgb(255 255 255 / 0.14); }
+  .pill span:first-child { background: linear-gradient(120deg, #7958ff, #4e56d8); border-color: transparent; }
+</style>
+</head>
+<body>
+  <div class="stars"></div>
+  <div class="device"><img src="../public/img/meridian-library-800.webp" alt=""></div>
+  <div class="copy">
+    <div class="brand"><img src="../public/img/app-icon-256.webp" alt=""><span>Game launcher for Android</span></div>
+    <div class="word">ELYNDRA</div>
+    <div class="display">Your games.<br><span class="grad">One console.</span></div>
+    <div class="sub">Android games and emulator ROMs in one library, built for gamepads.</div>
+  </div>
+  <div class="pill"><span>Free download</span><span>Android 8.0+</span><span>Masha, 3D assistant</span></div>
+</body>
+</html>

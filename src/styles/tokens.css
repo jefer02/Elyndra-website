@@ -1,0 +1,166 @@
+/* ─────────────────────────────────────────────────────────────
+   Elyndra Console tokens, taken from the app:
+   data/BrandTokens.kt (DARK neutrals, shade, champagne, primary, holo room),
+   data/SignaturePalette.kt (signature palettes), ui/theme/Console.kt
+   (8 dp spacing grid, radii 8/12/16/20/28, type scale), docs/UI_DESIGN.md.
+   ───────────────────────────────────────────────────────────── */
+
+@font-face {
+  font-family: 'Poppins';
+  src: url('/fonts/poppins_regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Poppins';
+  src: url('/fonts/poppins_medium.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Poppins';
+  src: url('/fonts/poppins_semibold.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Poppins';
+  src: url('/fonts/poppins_extrabold.woff2') format('woff2');
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Cinzel';
+  src: url('/fonts/cinzel_bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+/* Metric-matched fallback so the swap to Poppins doesn't shift the layout. */
+@font-face {
+  font-family: 'Poppins Fallback';
+  src: local('Arial');
+  ascent-override: 105%;
+  descent-override: 35%;
+  line-gap-override: 10%;
+  size-adjust: 112%;
+}
+
+:root {
+  /* Neutrals (BrandTokens.DARK) */
+  --paper: #0d0f16;
+  --surface: #171a25;
+  --ink: #eceef6;
+  --ink-2: #a3a9be;
+  --chip: rgb(255 255 255 / 0.09);
+  --hairline: rgb(255 255 255 / 0.14);
+  --success: #4cd497;
+  --warning: #f2b85b;
+  --error: #ff8397;
+
+  /* Physical ink, light accents */
+  --shade: #1a1d2b;
+  --champagne: #f0d7a2;
+  --intro-smoke: #0c0906;
+  --media-back: #141722;
+
+  /* Brand primary (Obsidian Indigo) */
+  --primary: #4e56d8;
+  --primary-deep: #2b2f92;
+  --secondary: #5bc3dc;
+  --primary-on-dark: #a9b0ff;
+
+  /* Masha's hologram room (BrandTokens.HOLO_*) */
+  --holo-bg: #040913;
+  --holo-panel: #0a1630;
+  --holo-line: #5ce1ff;
+  --holo-text: #e9f4ff;
+  --holo-dim: #8ea6c8;
+
+  /* Signature palette (Plasma by default; palette.ts switches it) */
+  --p1: #7c5cff;
+  --p2: #2bd9ff;
+  --spark: #fff1c9;
+  /* Button fill and the ink on it (≥ 4.5:1), and accent as text on the dark paper (≥ 4.5:1) */
+  --btn-fill: #7958ff;
+  --btn-fill-2: #4e56d8;
+  --btn-ink: #ffffff;
+  --accent-text: #b4a3ff;
+
+  /* Spacing (8 dp grid) */
+  --s-xs: 4px;
+  --s-s: 8px;
+  --s-m: 16px;
+  --s-l: 24px;
+  --s-xl: 32px;
+  --s-xxl: 48px;
+  --s-section: clamp(72px, 11vw, 144px);
+
+  /* Radii */
+  --r-xs: 8px;
+  --r-s: 12px;
+  --r-m: 16px;
+  --r-l: 20px;
+  --r-xl: 28px;
+
+  /* Type */
+  --font: 'Poppins', 'Poppins Fallback', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-display: 'Cinzel', 'Times New Roman', serif;
+  --mono: ui-monospace, 'SFMono-Regular', 'Cascadia Mono', Consolas, monospace;
+
+  /* Motion (Springs.enter ~300 ms, Swift, EaseInOut) */
+  --ease-swift: cubic-bezier(0.2, 0.9, 0.1, 1);
+  --ease-inout: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-spring: cubic-bezier(0.34, 1.32, 0.64, 1);
+  --t-fast: 140ms;
+  --t-enter: 300ms;
+
+  /* Layout */
+  --wrap: 1200px;
+  --wrap-wide: 1480px;
+  --gutter: clamp(16px, 4vw, 40px);
+  --topbar-h: 64px;
+
+  color-scheme: dark;
+}
+
+:root[data-palette='ember'] {
+  --p1: #ff8a1f;
+  --p2: #ff3d5a;
+  --spark: #ffe2b8;
+  --btn-fill: #ff8a1f;
+  --btn-fill-2: #ff5a3c;
+  --btn-ink: #1b0b00;
+  --accent-text: #ffb070;
+}
+:root[data-palette='aurora'] {
+  --p1: #19e3a5;
+  --p2: #3aa8ff;
+  --spark: #e6fff6;
+  --btn-fill: #19e3a5;
+  --btn-fill-2: #3ab8e8;
+  --btn-ink: #02150f;
+  --accent-text: #5ef0c2;
+}
+:root[data-palette='neon_rose'] {
+  --p1: #ff4fa3;
+  --p2: #b15cff;
+  --spark: #ffe6f3;
+  --btn-fill: #ff4fa3;
+  --btn-fill-2: #d65cf0;
+  --btn-ink: #1c0011;
+  --accent-text: #ff8cc4;
+}
+:root[data-palette='solar'] {
+  --p1: #e9b44c;
+  --p2: #f3ce7a;
+  --spark: #fff1d6;
+  --btn-fill: #e9b44c;
+  --btn-fill-2: #f3ce7a;
+  --btn-ink: #1d1400;
+  --accent-text: #f3ce7a;
+}
