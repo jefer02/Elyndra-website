@@ -1,0 +1,12 @@
+{
+  "name": "Elyndra",
+  "short_name": "Elyndra",
+  "description": "Console-style game launcher for Android.",
+  "start_url": "/",
+  "display": "browser",
+  "background_color": "#0b0d16",
+  "theme_color": "#0b0d16",
+  "icons": [
+    { "src": "/img/icon-192.png", "sizes": "192x192", "type": "image/png" }
+  ]
+}

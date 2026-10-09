@@ -1,0 +1,21 @@
+{
+  "fetchedAt": "2026-10-09T03:44:05.133Z",
+  "releases": [
+    {
+      "tag": "v1.0.0",
+      "name": "Elyndra v1.0.0",
+      "prerelease": false,
+      "draft": false,
+      "publishedAt": "2026-10-08T21:49:33Z",
+      "htmlUrl": "https://github.com/jefer02/Elyndra/releases/tag/v1.0.0",
+      "assets": [
+        {
+          "name": "Elyndra-v1.0.0-universal.apk",
+          "size": 202630794,
+          "digest": "sha256:34f63089970e6f110199b66f3121aa4d8a3e8b77f879b11f472092682aacb874",
+          "url": "https://github.com/jefer02/Elyndra/releases/download/v1.0.0/Elyndra-v1.0.0-universal.apk"
+        }
+      ]
+    }
+  ]
+}
