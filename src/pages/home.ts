@@ -60,7 +60,7 @@ export function renderHome(ctx: PageCtx): string {
   const hero = `<section class="hero" id="top" aria-labelledby="hero-title">
   <div class="aurora-css" aria-hidden="true"><span class="au au1"></span><span class="au au2"></span><span class="au au3"></span><span class="stars stars1"></span><span class="stars stars2"></span></div>
   <canvas class="aurora" data-aurora aria-hidden="true"></canvas>
-  <canvas class="boot" data-boot aria-hidden="true"></canvas>
+  <canvas class="boot-canvas" data-boot aria-hidden="true"></canvas>
   <div class="hero-grain" aria-hidden="true"></div>
   <div class="wrap hero-inner">
     <div class="hero-copy">

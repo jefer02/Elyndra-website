@@ -140,7 +140,7 @@
     linear-gradient(180deg, #0a0b12 0%, var(--paper) 100%);
 }
 .aurora,
-.boot {
+.boot-canvas {
   position: absolute;
   inset: 0;
   width: 100%;
@@ -155,7 +155,7 @@
 .aurora.is-on {
   opacity: 1;
 }
-.boot {
+.boot-canvas {
   z-index: 2;
 }
 .hero-grain {
