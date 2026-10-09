@@ -1,6 +1,6 @@
 // Masha as a hologram, with three.js (lazy chunk). The model is public/models/masha-web.glb
 // (scripts/build-masha.mjs): CC0 MakeHuman geometry and its skeleton, no animation clips. Every
-// motion here is procedural: arms brought down from the bind pose, breathing, a slow sway, blinking,
+// motion here is procedural: a relaxed contrapposto posed from the bind pose (pose()), breathing, a slow sway, blinking,
 // a head that follows the pointer, rings and rising motes. Colors from the app's holo room
 // (BrandTokens.HOLO_LINE #5CE1FF on HOLO_BG).
 import {
@@ -16,10 +16,12 @@ import {
   PerspectiveCamera,
   Points,
   PointsMaterial,
+  Quaternion,
   RingGeometry,
   Scene,
   SRGBColorSpace,
   Timer,
+  Vector3,
   WebGLRenderer,
   type Bone,
   type Material,
@@ -59,12 +61,103 @@ function holoMaterial(strength: number, uniforms: { uTime: { value: number } }):
         float fres = pow(1.0 - clamp(abs(dot(n, v)), 0.0, 1.0), 2.0);
         float scan = 0.55 + 0.45 * sin(vHoloY * 260.0 - uTime * 3.0);
         float band = smoothstep(0.0, 0.04, abs(fract(vHoloY * 0.6 - uTime * 0.12) - 0.5));
-        vec3 col = mix(uDeep * 0.22, uHolo, fres) * (0.55 + 0.45 * scan);
-        col += uHolo * (1.0 - band) * 0.25;
+        vec3 col = mix(uDeep * 0.38, uHolo * 1.15, fres) * (0.72 + 0.28 * scan);
+        col += uHolo * pow(fres, 4.0) * 0.6;
+        col += uHolo * (1.0 - band) * 0.2;
         gl_FragColor = vec4(col * uStrength, 1.0);`,
       );
   };
   return m;
+}
+
+const _a = new Vector3();
+const _b = new Vector3();
+const _q = new Quaternion();
+const _w = new Quaternion();
+const _p = new Quaternion();
+
+/** Gives a bone the world rotation `world` (its parent's rotation is factored out). */
+function setWorldRotation(bone: Object3D, world: Quaternion) {
+  bone.parent!.getWorldQuaternion(_p);
+  bone.quaternion.copy(_p.invert().multiply(world));
+  bone.updateMatrixWorld(true);
+}
+
+/** Turns a bone (shortest arc) so that its child sits along `dir`, in model space (+Z = her front). */
+function aim(bone: Object3D | undefined, child: Object3D | undefined, dir: Vector3) {
+  if (!bone || !child) return;
+  bone.getWorldPosition(_a);
+  child.getWorldPosition(_b);
+  _q.setFromUnitVectors(_b.sub(_a).normalize(), dir.clone().normalize());
+  setWorldRotation(bone, _q.multiply(bone.getWorldQuaternion(_w)));
+}
+
+/** Rotates a bone in world space about `axis` by `angle` (whole sub-tree follows). */
+function turn(bone: Object3D | undefined, axis: Vector3, angle: number) {
+  if (!bone) return;
+  _q.setFromAxisAngle(axis, angle);
+  setWorldRotation(bone, _q.multiply(bone.getWorldQuaternion(_w)));
+}
+
+const v = (x: number, y: number, z: number) => new Vector3(x, y, z);
+const X = v(1, 0, 0);
+const Y = v(0, 1, 0);
+const Z = v(0, 0, 1);
+
+/**
+ * Relaxed contrapposto from the bind A-pose: weight on her right leg, the left knee eased forward,
+ * hips and shoulders tilted against each other, soft elbows, palms toward the thighs, head tipped.
+ * Directions are in model space: +X her left, +Y up, +Z toward the viewer.
+ */
+function pose(model: Object3D, bones: Map<string, Bone>) {
+  const b = (n: string) => bones.get(n);
+  model.updateMatrixWorld(true);
+  // Feet keep their bind orientation so they stay flat on the floor.
+  const feet = (['Left', 'Right'] as const).map((s) => {
+    const f = b(`${s}Foot`);
+    return { f, q: f ? f.getWorldQuaternion(new Quaternion()) : null };
+  });
+  const supportFoot = b('RightFoot');
+  const groundY = supportFoot ? supportFoot.getWorldPosition(new Vector3()).y : 0;
+
+  // Pelvis: left hip drops, a quarter turn of attitude toward her support side.
+  turn(b('Hips'), Z, 0.09);
+  turn(b('Hips'), Y, -0.12);
+  // Torso answers back so the shoulders tilt the other way.
+  turn(b('Spine'), Z, -0.07);
+  turn(b('Spine1'), Z, -0.05);
+  turn(b('Spine2'), X, -0.05);
+  turn(b('Neck'), X, 0.06);
+
+  // Legs: right straight under the body, left relaxed with the knee forward and the foot turned out.
+  aim(b('RightUpLeg'), b('RightLeg'), v(0.03, -1, 0.01));
+  aim(b('RightLeg'), b('RightFoot'), v(0.02, -1, -0.02));
+  aim(b('LeftUpLeg'), b('LeftLeg'), v(0.01, -1, 0.3));
+  aim(b('LeftLeg'), b('LeftFoot'), v(0.1, -1, -0.12));
+  for (const { f, q } of feet) if (f && q) setWorldRotation(f, q);
+  turn(b('LeftFoot'), Y, 0.35);
+
+  // Shoulders settle down a little, arms hang with soft elbows and the hands drawn in.
+  turn(b('LeftShoulder'), Z, -0.08);
+  turn(b('RightShoulder'), Z, 0.08);
+  for (const [s, k] of [['Left', 1], ['Right', -1]] as const) {
+    aim(b(`${s}Arm`), b(`${s}ForeArm`), v(k * 0.3, -1, -0.06));
+    aim(b(`${s}ForeArm`), b(`${s}Hand`), v(k * 0.06, -1, 0.5));
+    aim(b(`${s}Hand`), b(`${s}HandMiddle1`), v(-k * 0.08, -1, 0.3));
+    // Fingers curl softly toward the thigh, a little more from index to pinky.
+    (['Index', 'Middle', 'Ring', 'Pinky'] as const).forEach((f, i) => {
+      for (let j = 1; j <= 3; j++) turn(b(`${s}Hand${f}${j}`), Z, -k * (0.16 + i * 0.05));
+    });
+    turn(b(`${s}HandThumb1`), Z, -k * 0.1);
+  }
+  // Head: a slight tilt and turn, chin level.
+  turn(b('Neck'), Z, 0.05);
+  turn(b('Head'), Z, 0.06);
+  turn(b('Head'), Y, 0.1);
+
+  // Put the support foot back on the floor.
+  if (supportFoot) model.position.y += groundY - supportFoot.getWorldPosition(new Vector3()).y;
+  model.updateMatrixWorld(true);
 }
 
 export async function mountMasha(mount: HTMLElement, opts: Options) {
@@ -108,16 +201,7 @@ export async function mountMasha(mount: HTMLElement, opts: Options) {
   rig.add(model);
   scene.add(rig);
 
-  // Rest pose: bring the arms down from the bind pose (A-pose) to the sides.
-  const lower = (side: 'Left' | 'Right') => {
-    const s = side === 'Left' ? 1 : -1;
-    const upper = bones.get(`${side}Arm`);
-    if (!upper) return;
-    upper.rotation.y += s * 0.6;
-    upper.rotation.z += -s * 0.9;
-  };
-  lower('Left');
-  lower('Right');
+  pose(model, bones);
   const spine = bones.get('Spine1');
   const head = bones.get('Head');
   const neck = bones.get('Neck');
@@ -126,6 +210,7 @@ export async function mountMasha(mount: HTMLElement, opts: Options) {
     headY: head?.rotation.y ?? 0,
     headX: head?.rotation.x ?? 0,
     neckY: neck?.rotation.y ?? 0,
+    y: model.position.y,
   };
 
   // Floor rings and rising motes (own geometry).
@@ -219,7 +304,7 @@ export async function mountMasha(mount: HTMLElement, opts: Options) {
         yaw += vel + 0.0025 * Math.sin(t * 0.3);
       }
       if (spine) spine.rotation.x = base.spine + Math.sin(t * 1.6) * 0.012;
-      model.position.y = Math.sin(t * 0.9) * 0.01;
+      model.position.y = base.y + Math.sin(t * 0.9) * 0.01;
       if (head) {
         head.rotation.y += (base.headY + lookX * 0.35 - head.rotation.y) * 0.06;
         head.rotation.x += (base.headX + lookY * 0.18 - head.rotation.x) * 0.06;
